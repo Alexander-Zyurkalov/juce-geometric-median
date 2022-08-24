@@ -9,11 +9,11 @@ const juce::String GeometricMedianApplication::getApplicationVersion() {
 }
 
 void GeometricMedianApplication::initialise(const juce::String &commandLineParameters) {
-
+    geometricMedianWindow.reset(new GeometricMedianWindow(getApplicationName()));
 }
 
 void GeometricMedianApplication::shutdown() {
-
+    geometricMedianWindow = nullptr;
 }
 
 START_JUCE_APPLICATION(GeometricMedianApplication)
