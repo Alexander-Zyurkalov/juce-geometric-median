@@ -24,6 +24,7 @@ public:
 
     virtual ~CoordinateCluster();
 
+    std::vector<Coordinates> calculateMiddlePointByOurAlgorithm();
 private:
     std::vector<Coordinates*> coordinateList;
 };
