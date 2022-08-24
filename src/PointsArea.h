@@ -2,7 +2,12 @@
 class PointsArea: public juce::DrawableComposite{
 public:
     PointsArea();
-private:
+    void mouseMove(const juce::MouseEvent &event) override;
 
+    void mouseDrag(const juce::MouseEvent &event) override;
+
+
+private:
+    juce::DrawablePath point;
 };
 
