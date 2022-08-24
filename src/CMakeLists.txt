@@ -4,4 +4,5 @@ target_sources(JuceGeometricMedian
         gui/MainComponent.cpp
         gui/GeometricMedianWindow.cpp
         gui/PointsArea.cpp
+        domain/CoordinateCluster.cpp
 )
