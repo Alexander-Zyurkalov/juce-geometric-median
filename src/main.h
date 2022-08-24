@@ -1,6 +1,6 @@
 #include <juce_gui_basics/juce_gui_basics.h>
-#include "MainComponent.h"
-#include "GeometricMedianWindow.h"
+#include "gui/MainComponent.h"
+#include "gui/GeometricMedianWindow.h"
 
 class GeometricMedianApplication: public juce::JUCEApplication {
 public:

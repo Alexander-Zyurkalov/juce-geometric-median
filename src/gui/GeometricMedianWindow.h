@@ -1,4 +1,4 @@
-#include <juce_gui_basics/juce_gui_basics.h>
+#include "juce_gui_basics/juce_gui_basics.h"
 class GeometricMedianWindow: public juce::DocumentWindow{
 public:
     GeometricMedianWindow(const juce::String &name);

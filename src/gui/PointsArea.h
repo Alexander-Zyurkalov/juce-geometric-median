@@ -1,4 +1,4 @@
-#include <juce_gui_basics/juce_gui_basics.h>
+#include "juce_gui_basics/juce_gui_basics.h"
 
 class PointsListener: public juce::MouseListener{
     void mouseDrag(const juce::MouseEvent &event) override;

@@ -1,4 +1,4 @@
-#include <juce_gui_basics/juce_gui_basics.h>
+#include "juce_gui_basics/juce_gui_basics.h"
 #include "PointsArea.h"
 class MainComponent: public juce::Component,
                      public juce::Button::Listener {

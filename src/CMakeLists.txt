@@ -1,7 +1,7 @@
 target_sources(JuceGeometricMedian
     PRIVATE
         main.cpp
-        MainComponent.cpp
-        GeometricMedianWindow.cpp
-        PointsArea.cpp
+        gui/MainComponent.cpp
+        gui/GeometricMedianWindow.cpp
+        gui/PointsArea.cpp
 )
