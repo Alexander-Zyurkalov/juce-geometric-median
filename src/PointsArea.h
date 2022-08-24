@@ -10,11 +10,13 @@ class MyPoint: public  juce::Component{
 class PointsArea: public juce::Component{
 public:
     PointsArea();
+    ~PointsArea();
     void paint(juce::Graphics &g) override;
+
+    void addPoint();
 private:
     PointsListener pointsListener;
-    MyPoint point1;
-    MyPoint point2;
+    std::vector<MyPoint*> points;
 };
 
 

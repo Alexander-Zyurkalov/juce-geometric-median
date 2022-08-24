@@ -1,16 +1,30 @@
 #include "PointsArea.h"
 #include <iostream>
 PointsArea::PointsArea(){
-    point1.setBounds(40, 30, 10, 10);
-    point1.addMouseListener(&pointsListener, false);
-    addAndMakeVisible(point1);
-    point2.setBounds(50, 90, 10, 10);
-    point2.addMouseListener(&pointsListener, false);
-    addAndMakeVisible(point2);
+    addPoint();
+    addPoint();
+}
+
+void PointsArea::addPoint() {
+    juce::Random random1;
+    auto newPoint = new MyPoint();
+    points.push_back(newPoint);
+
+    int x = random1.nextInt(juce::Range{10, 600-10});
+    int y = random1.nextInt(juce::Range{10,600-10});
+    newPoint->setBounds(x,y, 10,10);
+    newPoint->addMouseListener(&pointsListener, false);
+    addAndMakeVisible(newPoint);
 }
 
 void PointsArea::paint(juce::Graphics &g) {
     g.fillAll(juce::Colours::lightgrey);
+}
+
+PointsArea::~PointsArea() {
+    for (MyPoint* &point: points) {
+        delete point;
+    }
 }
 
 
