@@ -15,6 +15,7 @@ void PointsArea::addPoint() {
     newPoint->setBounds(x,y, 10,10);
     newPoint->addMouseListener(&pointsListener, false);
     addAndMakeVisible(newPoint);
+    coordinateCluster.addCoordinates((float)x, (float)y); // here we can do geo transformation
 }
 
 void PointsArea::paint(juce::Graphics &g) {

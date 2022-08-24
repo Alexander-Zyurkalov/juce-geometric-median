@@ -1,4 +1,5 @@
 #include "juce_gui_basics/juce_gui_basics.h"
+#include "../domain/CoordinateCluster.h"
 
 class PointsListener: public juce::MouseListener{
     void mouseDrag(const juce::MouseEvent &event) override;
@@ -17,6 +18,7 @@ public:
 private:
     PointsListener pointsListener;
     std::vector<MyPoint*> points;
+    CoordinateCluster coordinateCluster;
 };
 
 
