@@ -8,4 +8,10 @@ MainComponent::MainComponent() {
 
     pointsArea.setBounds(10, 140, 580, 400);
     addAndMakeVisible(pointsArea);
+
+    addNewPointButton.addListener(this);
+}
+
+void MainComponent::buttonClicked(juce::Button *button) {
+    pointsArea.addPoint();
 }
