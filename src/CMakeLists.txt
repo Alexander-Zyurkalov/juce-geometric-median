@@ -3,4 +3,5 @@ target_sources(JuceGeometricMedian
         main.cpp
         MainComponent.cpp
         GeometricMedianWindow.cpp
+        PointsArea.cpp
 )
