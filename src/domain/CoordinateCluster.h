@@ -20,6 +20,7 @@ public:
 class CoordinateCluster {
 public:
     void addCoordinates(float latitude, float longitude);
+    void setCoordinates(std::size_t index, float latitude, float longitude);
 
     virtual ~CoordinateCluster();
 

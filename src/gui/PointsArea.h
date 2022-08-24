@@ -2,10 +2,24 @@
 #include "../domain/CoordinateCluster.h"
 
 class PointsListener: public juce::MouseListener{
+public:
     void mouseDrag(const juce::MouseEvent &event) override;
+
+    explicit PointsListener(CoordinateCluster *coordinateCluster);
+
+private:
+    CoordinateCluster* coordinateCluster;
 };
 class MyPoint: public  juce::Component{
-  void paint(juce::Graphics &g) override;
+public:
+    explicit MyPoint(std::size_t index);
+
+    void paint(juce::Graphics &g) override;
+
+    std::size_t getIndex() const;
+
+private:
+    std::size_t index;
 };
 
 class PointsArea: public juce::Component{
@@ -16,9 +30,9 @@ public:
 
     void addPoint();
 private:
-    PointsListener pointsListener;
     std::vector<MyPoint*> points;
     CoordinateCluster coordinateCluster;
+    PointsListener pointsListener{&coordinateCluster};
 };
 
 

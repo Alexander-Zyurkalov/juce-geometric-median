@@ -10,6 +10,13 @@ CoordinateCluster::~CoordinateCluster() {
     }
 }
 
+void CoordinateCluster::setCoordinates(std::size_t index, float latitude, float longitude) {
+    if (index < coordinateList.size()) {
+        coordinateList[index]->setLatitude(latitude);
+        coordinateList[index]->setLongitude(longitude);
+    }
+}
+
 
 float Coordinates::getLatitude() const {
     return latitude;
