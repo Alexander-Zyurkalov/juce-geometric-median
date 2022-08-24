@@ -9,8 +9,8 @@ GeometricMedianWindow::GeometricMedianWindow(const juce::String &name) : Documen
                                                                                         juce::Colours::darkgrey,
                                                                                         juce::DocumentWindow::TitleBarButtons::allButtons) {
     setUsingNativeTitleBar(true);
-    setContentOwned(new MainComponent(), true);
     centreWithSize(400, 400);
+    setContentOwned(new MainComponent(), true);
     setResizable(true, true);
     setVisible(true);
 }

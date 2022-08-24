@@ -13,7 +13,8 @@ public:
     void paint(juce::Graphics &g) override;
 private:
     PointsListener pointsListener;
-    MyPoint point;
+    MyPoint point1;
+    MyPoint point2;
 };
 
 
