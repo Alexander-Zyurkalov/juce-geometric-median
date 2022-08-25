@@ -3,6 +3,7 @@
 PointsArea::PointsArea(){
     addPoint();
     addPoint();
+    oldBestPoints = bestPoints;
 }
 
 void PointsArea::addPoint() {
@@ -12,26 +13,36 @@ void PointsArea::addPoint() {
     int x = random1.nextInt(juce::Range{10, 580-10});
     int y = random1.nextInt(juce::Range{10,400-10});
     newPoint->setBounds(x,y, 10,10);
-    newPoint->addMouseListener(&pointsListener, false);
+    newPoint->addMouseListener(this, false);
     addAndMakeVisible(newPoint);
     coordinateCluster.addCoordinates((float)x, (float)y); // here we can do geo transformation
+    bestPoints = coordinateCluster.calculateMiddlePointByOurAlgorithm();
 }
 
 void PointsArea::paint(juce::Graphics &g) {
     g.fillAll(juce::Colours::black);
+    g.setColour(juce::Colours::black);
+    for (Coordinates coordinates: oldBestPoints) {
+        g.drawEllipse(coordinates.getLatitude()-5, coordinates.getLongitude()-5, 16, 16,1.0);
+    }
+    g.setColour(juce::Colours::red);
+    for (Coordinates coordinates: bestPoints) {
+        g.drawEllipse(coordinates.getLatitude()-5, coordinates.getLongitude()-5, 16, 16,1.0);
+    }
+    oldBestPoints = bestPoints;
 }
 
 PointsArea::~PointsArea() {
     for (MyPoint* &point: points) {
         delete point;
     }
-    for (AttentionPoint* attentionPoint: attentionPoints) {
-        delete attentionPoint;
-    }
 }
 
 
-void PointsListener::mouseDrag(const juce::MouseEvent &event) {
+void PointsArea::mouseDrag(const juce::MouseEvent &event) {
+    if (event.eventComponent == this) {
+        return;
+    }
     auto *point = (MyPoint*)event.eventComponent;
     juce::Rectangle<int> bounds = point->getBoundsInParent();
     int x = event.getPosition().getX();
@@ -47,21 +58,9 @@ void PointsListener::mouseDrag(const juce::MouseEvent &event) {
     if (bounds.getY() > point->getParentHeight() - bounds.getHeight())
         bounds.setY(point->getParentHeight() - bounds.getHeight());
     point->setBounds(bounds);
-    coordinateCluster->setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
-    std::vector<Coordinates> bestPoints = coordinateCluster->calculateMiddlePointByOurAlgorithm();
-    for (AttentionPoint* attentionPoint: attentionPoints) {
-        delete attentionPoint;
-    }
-    for (Coordinates &coordinates: bestPoints) {
-        auto attentionPoint = new AttentionPoint();
-        attentionPoint->setBounds(coordinates.getLatitude(), coordinates.getLongitude(), 10, 10);
-    }
+    coordinateCluster.setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
+    bestPoints = coordinateCluster.calculateMiddlePointByOurAlgorithm();
 }
-
-PointsListener::PointsListener(CoordinateCluster *coordinateCluster, std::vector<AttentionPoint*>& attentionPoints):
-    coordinateCluster(coordinateCluster),
-    attentionPoints(attentionPoints) {}
-
 
 void MyPoint::paint(juce::Graphics &g) {
     g.fillAll(juce::Colours::white);

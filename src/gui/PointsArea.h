@@ -6,17 +6,6 @@ public:
     void paint(juce::Graphics &g) override;
 };
 
-class PointsListener: public juce::MouseListener{
-public:
-    void mouseDrag(const juce::MouseEvent &event) override;
-
-    PointsListener(CoordinateCluster *coordinateCluster, std::vector<AttentionPoint*>& attentionPoints);
-
-private:
-    CoordinateCluster* coordinateCluster;
-    std::vector<AttentionPoint*>& attentionPoints;
-};
-
 class MyPoint: public  juce::Component{
 public:
     explicit MyPoint(std::size_t index);
@@ -34,13 +23,13 @@ public:
     PointsArea();
     ~PointsArea();
     void paint(juce::Graphics &g) override;
-
     void addPoint();
+    void mouseDrag(const juce::MouseEvent &event) override;
 private:
     std::vector<MyPoint*> points;
-    std::vector<AttentionPoint*> attentionPoints;
+    std::vector<Coordinates> bestPoints;
+    std::vector<Coordinates> oldBestPoints;
     CoordinateCluster coordinateCluster;
-    PointsListener pointsListener{&coordinateCluster, attentionPoints};
 };
 
 
