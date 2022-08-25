@@ -3,7 +3,7 @@
 PointsArea::PointsArea(){
     addPoint();
     addPoint();
-    oldBestPoints = bestPoints;
+    addAndMakeVisible(attentionPoint, 0);
 }
 
 void PointsArea::addPoint() {
@@ -16,20 +16,14 @@ void PointsArea::addPoint() {
     newPoint->addMouseListener(this, false);
     addAndMakeVisible(newPoint);
     coordinateCluster.addCoordinates((float)x, (float)y); // here we can do geo transformation
-    bestPoints = coordinateCluster.calculateMiddlePointByOurAlgorithm();
+    Coordinates coordinates = coordinateCluster.calculateMiddlePointByOurAlgorithm()[0];
+    attentionPoint.setBounds(coordinates.getLatitude() - 5, coordinates.getLongitude()-5, 20, 20);
 }
 
 void PointsArea::paint(juce::Graphics &g) {
     g.fillAll(juce::Colours::black);
-    g.setColour(juce::Colours::black);
-    for (Coordinates coordinates: oldBestPoints) {
-        g.drawEllipse(coordinates.getLatitude()-5, coordinates.getLongitude()-5, 16, 16,1.0);
-    }
     g.setColour(juce::Colours::red);
-    for (Coordinates coordinates: bestPoints) {
-        g.drawEllipse(coordinates.getLatitude()-5, coordinates.getLongitude()-5, 16, 16,1.0);
-    }
-    oldBestPoints = bestPoints;
+
 }
 
 PointsArea::~PointsArea() {
@@ -59,7 +53,8 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
         bounds.setY(point->getParentHeight() - bounds.getHeight());
     point->setBounds(bounds);
     coordinateCluster.setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
-    bestPoints = coordinateCluster.calculateMiddlePointByOurAlgorithm();
+    Coordinates coordinates = coordinateCluster.calculateMiddlePointByOurAlgorithm()[0];
+    attentionPoint.setBounds(coordinates.getLatitude() - 5, coordinates.getLongitude()-5, 20, 20);
 }
 
 void MyPoint::paint(juce::Graphics &g) {
@@ -74,5 +69,5 @@ MyPoint::MyPoint(std::size_t index) : index(index) {}
 
 void AttentionPoint::paint(juce::Graphics &g) {
     g.setColour(juce::Colours::red);
-    g.drawEllipse(0,0,10,10, 1.0f);
+    g.drawEllipse(0,0,15,15, 1.0f);
 }

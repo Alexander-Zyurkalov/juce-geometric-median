@@ -27,9 +27,8 @@ public:
     void mouseDrag(const juce::MouseEvent &event) override;
 private:
     std::vector<MyPoint*> points;
-    std::vector<Coordinates> bestPoints;
-    std::vector<Coordinates> oldBestPoints;
     CoordinateCluster coordinateCluster;
+    AttentionPoint attentionPoint;
 };
 
 
