@@ -11,6 +11,6 @@ GeometricMedianWindow::GeometricMedianWindow(const juce::String &name) : Documen
     setUsingNativeTitleBar(true);
     centreWithSize(400, 400);
     setContentOwned(new MainComponent(), true);
-    setResizable(true, true);
+    setResizable(false, false);
     setVisible(true);
 }
