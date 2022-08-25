@@ -23,9 +23,10 @@ void PointsArea::paint(juce::Graphics &g) {
 }
 
 PointsArea::~PointsArea() {
-    for (MyPoint* &point: points) {
+    for (MyPoint* &point: points)
         delete point;
-    }
+    for(auto &attentionPoint:attentionPoints)
+        delete attentionPoint;
 }
 
 
@@ -55,11 +56,25 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
 }
 
 void PointsArea::recalculateAttentionPointsPosition() {
-    Coordinates coordinates = coordinateCluster.calculateMiddlePointByOurAlgorithm()[0];
-    attentionPoint.setBounds((int)coordinates.getLatitude() - 5, (int)coordinates.getLongitude() - 5, 20, 20);
-    if (!attentionPoint.isVisible()){
-        addAndMakeVisible(attentionPoint, 0);
+    std::vector<Coordinates> coordinateList = coordinateCluster.calculateMiddlePointByOurAlgorithm();
+    if (attentionPoints.size() >coordinateList.size() )
+        for (size_t i =  attentionPoints.size()-1; i > coordinateList.size()-1; --i) {
+            removeChildComponent(attentionPoints[i]);
+            delete attentionPoints[i];
+            attentionPoints.pop_back();
+        }
+    for (size_t i = 0; i < coordinateList.size(); ++i) {
+        if (attentionPoints.size() <= i) {
+            attentionPoints.push_back(new AttentionPoint);
+        }
+        AttentionPoint *attentionPoint = attentionPoints[i];
+        Coordinates coordinates = coordinateList[i];
+        attentionPoint->setBounds((int)coordinates.getLatitude() - 5, (int)coordinates.getLongitude() - 5, 20, 20);
+        if (!attentionPoint->isVisible()){
+            addAndMakeVisible(attentionPoint, 0);
+        }
     }
+
 }
 
 void MyPoint::paint(juce::Graphics &g) {

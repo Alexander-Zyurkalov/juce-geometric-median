@@ -23,6 +23,12 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
     coordinates.setLongitude(coordinates.getLongitude() + 3);
     coordinates.setLatitude(coordinates.getLatitude() + 2);
     bestCoordinates.push_back(coordinates);
+    if (coordinateList.size() > 1) {
+        coordinates = *coordinateList[1];
+        coordinates.setLongitude(coordinates.getLongitude() + 3);
+        coordinates.setLatitude(coordinates.getLatitude() + 2);
+        bestCoordinates.push_back(coordinates);
+    }
     return bestCoordinates;
 }
 
