@@ -66,8 +66,8 @@ float CoordinateCluster::calculateDistance(const Coordinates *pointA, const Coor
     float lat2 = pointB->getLatitude();
     float long1 = pointA->getLongitude();
     float long2 = pointB->getLongitude();
-    int radiusOfEarth = 6371;
-    int dLat = toRadians(lat2 - lat1);
+    float radiusOfEarth = 6371.0f;
+    float dLat = toRadians(lat2 - lat1);
     float dLon = toRadians(long2 - long1);
 
     float a = sin(dLat / 2) * sin(dLat / 2) +
