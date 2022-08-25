@@ -28,36 +28,36 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
     if (coordinateList.empty()) {
         return bestCoordinates;
     }
-//    float leastTotalDistance = 0;
-//    Coordinates* finalCoordinateData = coordinateList[0];
-//    std::vector<Coordinates*> conflictingCoordinates;
-//
-//    for (int i = 0; i < coordinateList.size(); i++) {
-//        Coordinates* shopSpecificCoordinatesDataA = coordinateList[i];
-//        float totalDistance = 0;
-//        for (int j = 0; j < coordinateList.size(); j++) {
-//            if (i == j)
-//                continue;
-//            Coordinates* shopSpecificCoordinatesDataB = coordinateList[j];
-//            totalDistance += calculateDistance(shopSpecificCoordinatesDataA, shopSpecificCoordinatesDataB);
-//        }
-//        if (i == 0 || totalDistance < leastTotalDistance) {
-//            leastTotalDistance = totalDistance;
-//            finalCoordinateData = shopSpecificCoordinatesDataA;
-//            conflictingCoordinates.clear();     //if there is a lesser distance value than current then conflict is resolved.
-//            conflictingCoordinates.push_back(finalCoordinateData);
-//        } else if (totalDistance == leastTotalDistance) {
-//            // 2 points have same total distances. resolve it later
-//            if (conflictingCoordinates.empty()) {
-//
-//                conflictingCoordinates.push_back(finalCoordinateData);
-//            }
-//            conflictingCoordinates.push_back(shopSpecificCoordinatesDataA);
-//        }
-//    }
-//    for(Coordinates* coordinates: conflictingCoordinates){
-//        bestCoordinates.push_back(*coordinates);
-//    }
+    float leastTotalDistance = 0;
+    Coordinates* finalCoordinateData = coordinateList[0];
+    std::vector<Coordinates*> conflictingCoordinates;
+
+    for (int i = 0; i < coordinateList.size(); i++) {
+        Coordinates* shopSpecificCoordinatesDataA = coordinateList[i];
+        float totalDistance = 0;
+        for (int j = 0; j < coordinateList.size(); j++) {
+            if (i == j)
+                continue;
+            Coordinates* shopSpecificCoordinatesDataB = coordinateList[j];
+            totalDistance += calculateDistance(shopSpecificCoordinatesDataA, shopSpecificCoordinatesDataB);
+        }
+        if (i == 0 || totalDistance < leastTotalDistance) {
+            leastTotalDistance = totalDistance;
+            finalCoordinateData = shopSpecificCoordinatesDataA;
+            conflictingCoordinates.clear();     //if there is a lesser distance value than current then conflict is resolved.
+            conflictingCoordinates.push_back(finalCoordinateData);
+        } else if (totalDistance == leastTotalDistance) {
+            // 2 points have same total distances. resolve it later
+            if (conflictingCoordinates.empty()) {
+
+                conflictingCoordinates.push_back(finalCoordinateData);
+            }
+            conflictingCoordinates.push_back(shopSpecificCoordinatesDataA);
+        }
+    }
+    for(Coordinates* coordinates: conflictingCoordinates){
+        bestCoordinates.push_back(*coordinates);
+    }
     return bestCoordinates;
 }
 
