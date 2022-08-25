@@ -25,6 +25,9 @@ PointsArea::~PointsArea() {
     for (MyPoint* &point: points) {
         delete point;
     }
+    for (AttentionPoint* attentionPoint: attentionPoints) {
+        delete attentionPoint;
+    }
 }
 
 
@@ -45,14 +48,22 @@ void PointsListener::mouseDrag(const juce::MouseEvent &event) {
         bounds.setY(point->getParentHeight() - bounds.getHeight());
     point->setBounds(bounds);
     coordinateCluster->setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
-
+    std::vector<Coordinates> bestPoints = coordinateCluster->calculateMiddlePointByOurAlgorithm();
+    for (AttentionPoint* attentionPoint: attentionPoints) {
+        delete attentionPoint;
+    }
+    for (Coordinates &coordinates: bestPoints) {
+        auto attentionPoint = new AttentionPoint();
+        attentionPoint->setBounds(coordinates.getLatitude(), coordinates.getLongitude(), 10, 10);
+    }
 }
 
-PointsListener::PointsListener(CoordinateCluster *coordinateCluster) : coordinateCluster(coordinateCluster) {}
+PointsListener::PointsListener(CoordinateCluster *coordinateCluster, std::vector<AttentionPoint*>& attentionPoints):
+    coordinateCluster(coordinateCluster),
+    attentionPoints(attentionPoints) {}
 
 
 void MyPoint::paint(juce::Graphics &g) {
-    g.drawEllipse(10, 10, 10, 10,1.0f);
     g.fillAll(juce::Colours::white);
 }
 
@@ -61,3 +72,8 @@ std::size_t MyPoint::getIndex() const {
 }
 
 MyPoint::MyPoint(std::size_t index) : index(index) {}
+
+void AttentionPoint::paint(juce::Graphics &g) {
+    g.setColour(juce::Colours::red);
+    g.drawEllipse(0,0,10,10, 1.0f);
+}
