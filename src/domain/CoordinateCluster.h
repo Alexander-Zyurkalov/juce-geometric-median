@@ -27,4 +27,6 @@ public:
     std::vector<Coordinates> calculateMiddlePointByOurAlgorithm();
 private:
     std::vector<Coordinates*> coordinateList;
+
+//    float calculateDistance(const Coordinates *pointA, const Coordinates *pointB) const;
 };
