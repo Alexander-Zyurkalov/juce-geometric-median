@@ -3,7 +3,6 @@
 PointsArea::PointsArea(){
     addPoint();
     addPoint();
-    addAndMakeVisible(attentionPoint, 0);
 }
 
 void PointsArea::addPoint() {
@@ -16,14 +15,11 @@ void PointsArea::addPoint() {
     newPoint->addMouseListener(this, false);
     addAndMakeVisible(newPoint);
     coordinateCluster.addCoordinates((float)x, (float)y); // here we can do geo transformation
-    Coordinates coordinates = coordinateCluster.calculateMiddlePointByOurAlgorithm()[0];
-    attentionPoint.setBounds(coordinates.getLatitude() - 5, coordinates.getLongitude()-5, 20, 20);
+    recalculateAttentionPointsPosition();
 }
 
 void PointsArea::paint(juce::Graphics &g) {
     g.fillAll(juce::Colours::black);
-    g.setColour(juce::Colours::red);
-
 }
 
 PointsArea::~PointsArea() {
@@ -53,8 +49,17 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
         bounds.setY(point->getParentHeight() - bounds.getHeight());
     point->setBounds(bounds);
     coordinateCluster.setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
+
+    recalculateAttentionPointsPosition();
+
+}
+
+void PointsArea::recalculateAttentionPointsPosition() {
     Coordinates coordinates = coordinateCluster.calculateMiddlePointByOurAlgorithm()[0];
-    attentionPoint.setBounds(coordinates.getLatitude() - 5, coordinates.getLongitude()-5, 20, 20);
+    attentionPoint.setBounds((int)coordinates.getLatitude() - 5, (int)coordinates.getLongitude() - 5, 20, 20);
+    if (!attentionPoint.isVisible()){
+        addAndMakeVisible(attentionPoint, 0);
+    }
 }
 
 void MyPoint::paint(juce::Graphics &g) {
