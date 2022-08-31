@@ -62,8 +62,6 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
 }
 
 float CoordinateCluster::calculateDistance(const Coordinates *pointA, const Coordinates *pointB) const {
-    // a^2 + b^2 = c^
-    // c= sqrt(a^2 + b^2)
     float lat1 = pointA->getLatitude();
     float lat2 = pointB->getLatitude();
     float long1 = pointA->getLongitude();
