@@ -57,7 +57,30 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
 }
 
 std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByAverageMassSpread() const {
-    return calculateMiddlePointByOurAlgorithm();
+    Coordinates averageCoordinates{0, 0};
+    for (auto coord : coordinateList) {
+        averageCoordinates.setLatitude(averageCoordinates.getLatitude() + coord->getLatitude());
+        averageCoordinates.setLongitude(averageCoordinates.getLongitude() + coord->getLongitude());
+    }
+    averageCoordinates.setLatitude(averageCoordinates.getLatitude()/(float)coordinateList.size());
+    averageCoordinates.setLongitude(averageCoordinates.getLongitude()/(float)coordinateList.size());
+
+    size_t foundIndex{0};
+    float minDistance = 1000000;
+    for (int i = 0; i < coordinateList.size(); i++) {
+        float distance  = calculateDistance(&averageCoordinates, coordinateList[i]);
+        if (distance < minDistance) {
+            minDistance = distance;
+            foundIndex = i;
+        }
+    }
+
+    std::vector<Coordinates> bestCoordinates;
+    if (coordinateList.size() > foundIndex){
+        bestCoordinates.push_back(*coordinateList[foundIndex]);
+    }
+
+    return bestCoordinates;
 }
 
 
