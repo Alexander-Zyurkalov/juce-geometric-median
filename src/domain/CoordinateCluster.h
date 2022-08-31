@@ -1,4 +1,6 @@
 #include <vector>
+
+
 class Coordinates{
 private:
     float latitude;
@@ -17,6 +19,8 @@ public:
 
 };
 
+float calculateDistance(const Coordinates *pointA, const Coordinates *pointB);
+
 class CoordinateCluster {
 public:
     void addCoordinates(float latitude, float longitude);
@@ -27,6 +31,4 @@ public:
     std::vector<Coordinates> calculateMiddlePointByOurAlgorithm();
 private:
     std::vector<Coordinates*> coordinateList;
-
-    float calculateDistance(const Coordinates *pointA, const Coordinates *pointB) const;
 };

@@ -1,10 +1,5 @@
 #include "CoordinateCluster.h"
 #include <cmath>
-#include <juce_core/juce_core.h>
-
-static float toRadians (float degrees) noexcept {
-    return (juce::MathConstants<float>::pi / 180.0f) * degrees;
-}
 
 void CoordinateCluster::addCoordinates(float latitude, float longitude) {
     coordinateList.push_back(new Coordinates{latitude, longitude});
@@ -61,12 +56,12 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
     return bestCoordinates;
 }
 
-float CoordinateCluster::calculateDistance(const Coordinates *pointA, const Coordinates *pointB) const {
+float calculateDistance(const Coordinates *pointA, const Coordinates *pointB)  {
     float lat1 = pointA->getLatitude();
     float lat2 = pointB->getLatitude();
     float long1 = pointA->getLongitude();
     float long2 = pointB->getLongitude();
-    float a = lat2 - lat2;
+    float a = lat1 - lat2;
     float b = long1 - long2;
     float c = sqrt(a * a + b * b);
     return c;

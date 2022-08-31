@@ -6,3 +6,7 @@ target_sources(JuceGeometricMedian
         gui/PointsArea.cpp
         domain/CoordinateCluster.cpp
 )
+target_sources(JuceGeometricMedianTests
+    PRIVATE
+        domain/CoordinateCluster.cpp
+        )
