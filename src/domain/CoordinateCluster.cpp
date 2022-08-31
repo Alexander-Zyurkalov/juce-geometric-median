@@ -62,19 +62,16 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
 }
 
 float CoordinateCluster::calculateDistance(const Coordinates *pointA, const Coordinates *pointB) const {
+    // a^2 + b^2 = c^
+    // c= sqrt(a^2 + b^2)
     float lat1 = pointA->getLatitude();
     float lat2 = pointB->getLatitude();
     float long1 = pointA->getLongitude();
     float long2 = pointB->getLongitude();
-    float radiusOfEarth = 6371.0f;
-    float dLat = toRadians(lat2 - lat1);
-    float dLon = toRadians(long2 - long1);
-
-    float a = sin(dLat / 2) * sin(dLat / 2) +
-               cos(toRadians(lat1)) * cos(toRadians(lat2)) *
-               sin(dLon / 2) * sin(dLon / 2);
-    float c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    return (float) radiusOfEarth * c;
+    float a = lat2 - lat2;
+    float b = long1 - long2;
+    float c = sqrt(a * a + b * b);
+    return c;
 }
 
 

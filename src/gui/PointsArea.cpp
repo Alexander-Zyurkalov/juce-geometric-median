@@ -40,14 +40,7 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
     int y = event.getPosition().getY();
     bounds.setX(bounds.getX() + x - bounds.getWidth()/2);
     bounds.setY(bounds.getY() + y - bounds.getHeight()/2);
-    if (bounds.getX() < 0)
-        bounds.setX(0);
-    if (bounds.getY() < 0 )
-        bounds.setY(0);
-    if (bounds.getX() > point->getParentWidth() - bounds.getWidth())
-        bounds.setX(point->getParentWidth() - bounds.getWidth());
-    if (bounds.getY() > point->getParentHeight() - bounds.getHeight())
-        bounds.setY(point->getParentHeight() - bounds.getHeight());
+
     point->setBounds(bounds);
     coordinateCluster.setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
 
@@ -78,7 +71,7 @@ void PointsArea::recalculateAttentionPointsPosition() {
 }
 
 void MyPoint::paint(juce::Graphics &g) {
-    g.fillAll(juce::Colours::white);
+    g.fillAll(juce::Colours::green);
 }
 
 std::size_t MyPoint::getIndex() const {
