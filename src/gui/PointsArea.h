@@ -28,7 +28,7 @@ public:
 private:
     std::vector<MyPoint*> points;
     CoordinateCluster coordinateCluster;
-    std::vector<AttentionPoint*> attentionPoints;
+    std::vector<AttentionPoint*> redAttentionPoints;
 
     void recalculateAttentionPointsPosition();
 };

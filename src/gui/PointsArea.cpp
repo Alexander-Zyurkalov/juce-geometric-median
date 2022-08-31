@@ -25,7 +25,7 @@ void PointsArea::paint(juce::Graphics &g) {
 PointsArea::~PointsArea() {
     for (MyPoint* &point: points)
         delete point;
-    for(auto &attentionPoint:attentionPoints)
+    for(auto &attentionPoint:redAttentionPoints)
         delete attentionPoint;
 }
 
@@ -50,17 +50,17 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
 
 void PointsArea::recalculateAttentionPointsPosition() {
     std::vector<Coordinates> coordinateList = coordinateCluster.calculateMiddlePointByOurAlgorithm();
-    if (attentionPoints.size() >coordinateList.size() )
-        for (size_t i =  attentionPoints.size()-1; i > coordinateList.size()-1; --i) {
-            removeChildComponent(attentionPoints[i]);
-            delete attentionPoints[i];
-            attentionPoints.pop_back();
+    if (redAttentionPoints.size() > coordinateList.size() )
+        for (size_t i = redAttentionPoints.size() - 1; i > coordinateList.size() - 1; --i) {
+            removeChildComponent(redAttentionPoints[i]);
+            delete redAttentionPoints[i];
+            redAttentionPoints.pop_back();
         }
     for (size_t i = 0; i < coordinateList.size(); ++i) {
-        if (attentionPoints.size() <= i) {
-            attentionPoints.push_back(new AttentionPoint);
+        if (redAttentionPoints.size() <= i) {
+            redAttentionPoints.push_back(new AttentionPoint);
         }
-        AttentionPoint *attentionPoint = attentionPoints[i];
+        AttentionPoint *attentionPoint = redAttentionPoints[i];
         Coordinates coordinates = coordinateList[i];
         attentionPoint->setBounds((int)coordinates.getLatitude() - 5, (int)coordinates.getLongitude() - 5, 20, 20);
         if (!attentionPoint->isVisible()){

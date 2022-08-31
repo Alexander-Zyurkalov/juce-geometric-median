@@ -18,7 +18,7 @@ void CoordinateCluster::setCoordinates(std::size_t index, float latitude, float 
     }
 }
 
-std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm() {
+std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm() const {
     std::vector<Coordinates> bestCoordinates;
     if (coordinateList.empty()) {
         return bestCoordinates;
@@ -55,6 +55,11 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
     }
     return bestCoordinates;
 }
+
+std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByAverageMassSpread() const {
+    return calculateMiddlePointByOurAlgorithm();
+}
+
 
 float calculateDistance(const Coordinates *pointA, const Coordinates *pointB)  {
     float lat1 = pointA->getLatitude();

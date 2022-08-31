@@ -28,7 +28,8 @@ public:
 
     virtual ~CoordinateCluster();
 
-    std::vector<Coordinates> calculateMiddlePointByOurAlgorithm();
+    std::vector<Coordinates> calculateMiddlePointByOurAlgorithm() const;
+    std::vector<Coordinates> calculateMiddlePointByAverageMassSpread() const;
 private:
     std::vector<Coordinates*> coordinateList;
 };
