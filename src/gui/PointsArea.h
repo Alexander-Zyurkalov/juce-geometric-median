@@ -38,7 +38,7 @@ private:
     void recalculateAttentionPointsPosition();
 
     void recalculateAnyAttentionPointsPosition(const std::vector<Coordinates> &coordinateList,
-                                               std::vector<AttentionPoint*> attentionPoints,
+                                               std::vector<AttentionPoint*> &attentionPoints,
                                                juce::Colour pointColour);
 };
 

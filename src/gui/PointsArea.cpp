@@ -59,7 +59,7 @@ void PointsArea::recalculateAttentionPointsPosition() {
 }
 
 void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordinates> &coordinateList,
-                                                       std::vector<AttentionPoint*> attentionPoints,
+                                                       std::vector<AttentionPoint*> &attentionPoints,
                                                        juce::Colour pointColour) {
     if (attentionPoints.size() > coordinateList.size() )
         for (size_t i = attentionPoints.size() - 1; i > coordinateList.size() - 1; --i) {
@@ -71,7 +71,7 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
         if (attentionPoints.size() <= i) {
             attentionPoints.push_back(new AttentionPoint(pointColour));
         }
-        AttentionPoint *attentionPoint = attentionPoints[i];
+        AttentionPoint *attentionPoint{attentionPoints[i]};
         Coordinates coordinates = coordinateList[i];
         attentionPoint->setBounds(
                 (int)coordinates.getLatitude() - 5,
@@ -84,7 +84,7 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
 }
 
 void MyPoint::paint(juce::Graphics &g) {
-    g.fillAll(juce::Colours::green);
+    g.fillAll(juce::Colours::white);
 }
 
 std::size_t MyPoint::getIndex() const {
@@ -95,7 +95,7 @@ MyPoint::MyPoint(std::size_t index) : index(index) {}
 
 void AttentionPoint::paint(juce::Graphics &g) {
     g.setColour(pointColour);
-    g.drawEllipse(0,0,15,15, 1.0f);
+    g.drawEllipse(0,0,20,20, 1.0f);
 }
 
 AttentionPoint::AttentionPoint(const juce::Colour &pointColour) : pointColour(pointColour) {}
