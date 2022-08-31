@@ -27,6 +27,8 @@ PointsArea::~PointsArea() {
         delete point;
     for(auto &attentionPoint:redAttentionPoints)
         delete attentionPoint;
+    for(auto &attentionPoint:greenAttentionPoints)
+        delete attentionPoint;
 }
 
 
@@ -49,25 +51,36 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
 }
 
 void PointsArea::recalculateAttentionPointsPosition() {
-    std::vector<Coordinates> coordinateList = coordinateCluster.calculateMiddlePointByOurAlgorithm();
-    if (redAttentionPoints.size() > coordinateList.size() )
-        for (size_t i = redAttentionPoints.size() - 1; i > coordinateList.size() - 1; --i) {
-            removeChildComponent(redAttentionPoints[i]);
-            delete redAttentionPoints[i];
-            redAttentionPoints.pop_back();
+    recalculateAnyAttentionPointsPosition(coordinateCluster.calculateMiddlePointByOurAlgorithm(),
+                                          redAttentionPoints, juce::Colours::red);
+    recalculateAnyAttentionPointsPosition(coordinateCluster.calculateMiddlePointByAverageMassSpread(),
+                                          greenAttentionPoints, juce::Colours::green);
+
+}
+
+void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordinates> &coordinateList,
+                                                       std::vector<AttentionPoint*> attentionPoints,
+                                                       juce::Colour pointColour) {
+    if (attentionPoints.size() > coordinateList.size() )
+        for (size_t i = attentionPoints.size() - 1; i > coordinateList.size() - 1; --i) {
+            removeChildComponent(attentionPoints[i]);
+            delete attentionPoints[i];
+            attentionPoints.pop_back();
         }
     for (size_t i = 0; i < coordinateList.size(); ++i) {
-        if (redAttentionPoints.size() <= i) {
-            redAttentionPoints.push_back(new AttentionPoint);
+        if (attentionPoints.size() <= i) {
+            attentionPoints.push_back(new AttentionPoint(pointColour));
         }
-        AttentionPoint *attentionPoint = redAttentionPoints[i];
+        AttentionPoint *attentionPoint = attentionPoints[i];
         Coordinates coordinates = coordinateList[i];
-        attentionPoint->setBounds((int)coordinates.getLatitude() - 5, (int)coordinates.getLongitude() - 5, 20, 20);
+        attentionPoint->setBounds(
+                (int)coordinates.getLatitude() - 5,
+                (int)coordinates.getLongitude() - 5,
+                20, 20);
         if (!attentionPoint->isVisible()){
             addAndMakeVisible(attentionPoint, 0);
         }
     }
-
 }
 
 void MyPoint::paint(juce::Graphics &g) {
@@ -81,6 +94,8 @@ std::size_t MyPoint::getIndex() const {
 MyPoint::MyPoint(std::size_t index) : index(index) {}
 
 void AttentionPoint::paint(juce::Graphics &g) {
-    g.setColour(juce::Colours::red);
+    g.setColour(pointColour);
     g.drawEllipse(0,0,15,15, 1.0f);
 }
+
+AttentionPoint::AttentionPoint(const juce::Colour &pointColour) : pointColour(pointColour) {}

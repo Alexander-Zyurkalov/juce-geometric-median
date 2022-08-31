@@ -3,7 +3,11 @@
 
 class AttentionPoint: public juce::Component{
 public:
+    explicit AttentionPoint(const juce::Colour &pointColour);
+
     void paint(juce::Graphics &g) override;
+private:
+    juce::Colour pointColour;
 };
 
 class MyPoint: public  juce::Component{
@@ -29,8 +33,13 @@ private:
     std::vector<MyPoint*> points;
     CoordinateCluster coordinateCluster;
     std::vector<AttentionPoint*> redAttentionPoints;
+    std::vector<AttentionPoint*> greenAttentionPoints;
 
     void recalculateAttentionPointsPosition();
+
+    void recalculateAnyAttentionPointsPosition(const std::vector<Coordinates> &coordinateList,
+                                               std::vector<AttentionPoint*> attentionPoints,
+                                               juce::Colour pointColour);
 };
 
 
