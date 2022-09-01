@@ -29,6 +29,8 @@ PointsArea::~PointsArea() {
         delete attentionPoint;
     for(auto &attentionPoint:greenAttentionPoints)
         delete attentionPoint;
+    for(auto &attentionPoint:blueAttentionPoints)
+        delete attentionPoint;
 }
 
 
@@ -63,6 +65,8 @@ void PointsArea::recalculateAttentionPointsPosition() {
                                           redAttentionPoints, juce::Colours::red);
     recalculateAnyAttentionPointsPosition(coordinateCluster.calculateMiddlePointByAverageMassSpread(),
                                           greenAttentionPoints, juce::Colours::green);
+    recalculateAnyAttentionPointsPosition(coordinateCluster.calculateMiddlePointByMedianMassSpread(),
+                                          blueAttentionPoints, juce::Colours::blue);
 
 }
 

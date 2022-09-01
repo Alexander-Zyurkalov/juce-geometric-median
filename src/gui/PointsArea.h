@@ -34,6 +34,7 @@ private:
     CoordinateCluster coordinateCluster;
     std::vector<AttentionPoint*> redAttentionPoints;
     std::vector<AttentionPoint*> greenAttentionPoints;
+    std::vector<AttentionPoint*> blueAttentionPoints;
 
     void recalculateAttentionPointsPosition();
 
