@@ -17,6 +17,17 @@ public:
 
     void setLongitude(float longitude);
 
+    bool operator==(const Coordinates &rhs) const;
+
+    bool operator!=(const Coordinates &rhs) const;
+
+    bool operator<(const Coordinates &rhs) const;
+
+    bool operator>(const Coordinates &rhs) const;
+
+    bool operator<=(const Coordinates &rhs) const;
+
+    bool operator>=(const Coordinates &rhs) const;
 };
 
 float calculateDistance(const Coordinates *pointA, const Coordinates *pointB);
@@ -30,6 +41,7 @@ public:
 
     std::vector<Coordinates> calculateMiddlePointByOurAlgorithm() const;
     std::vector<Coordinates> calculateMiddlePointByAverageMassSpread() const;
+    std::vector<Coordinates> calculateMiddlePointByMedianMassSpread() const;
 private:
     std::vector<Coordinates*> coordinateList;
 };

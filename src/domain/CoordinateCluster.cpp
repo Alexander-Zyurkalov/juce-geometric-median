@@ -83,6 +83,18 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByAverageMassSpr
     return bestCoordinates;
 }
 
+std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByMedianMassSpread() const {
+    std::vector<Coordinates> bestCoordinates;
+    auto sortedCoordinateList = coordinateList;
+    std::sort(std::begin(sortedCoordinateList), std::end(sortedCoordinateList),
+              [](auto&a, const auto&b){return *a < *b;});
+    if (sortedCoordinateList.empty())
+        return bestCoordinates;
+    size_t theMiddle = (size_t)std::floor(sortedCoordinateList.size() / 2.0f);
+    bestCoordinates.push_back(*sortedCoordinateList[theMiddle]);
+    return bestCoordinates;
+}
+
 
 float calculateDistance(const Coordinates *pointA, const Coordinates *pointB)  {
     float lat1 = pointA->getLatitude();
@@ -113,4 +125,33 @@ void Coordinates::setLongitude(float longitude) {
 }
 
 Coordinates::Coordinates(float latitude, float longitude) : latitude(latitude), longitude(longitude) {}
+
+bool Coordinates::operator==(const Coordinates &rhs) const {
+    return latitude == rhs.latitude &&
+           longitude == rhs.longitude;
+}
+
+bool Coordinates::operator!=(const Coordinates &rhs) const {
+    return !(rhs == *this);
+}
+
+bool Coordinates::operator<(const Coordinates &rhs) const {
+    if (latitude < rhs.latitude)
+        return true;
+    if (rhs.latitude < latitude)
+        return false;
+    return longitude < rhs.longitude;
+}
+
+bool Coordinates::operator>(const Coordinates &rhs) const {
+    return rhs < *this;
+}
+
+bool Coordinates::operator<=(const Coordinates &rhs) const {
+    return !(rhs < *this);
+}
+
+bool Coordinates::operator>=(const Coordinates &rhs) const {
+    return !(*this < rhs);
+}
 

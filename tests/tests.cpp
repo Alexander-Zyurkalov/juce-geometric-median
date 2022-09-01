@@ -35,3 +35,16 @@ TEST_CASE("Coordinate distances"){
     }
 
 }
+
+TEST_CASE("The median algorithm"){
+    SECTION("even number of elements") {
+        CoordinateCluster cluster;
+        cluster.addCoordinates(11.0, 11.0);
+        cluster.addCoordinates(10.0, 10.0);
+        cluster.addCoordinates(12.0, 12.0);
+        auto result = cluster.calculateMiddlePointByMedianMassSpread();
+        std::vector<Coordinates> expected;
+        expected.emplace_back(11.0, 11.0);
+        REQUIRE(result == expected);
+    }
+}
