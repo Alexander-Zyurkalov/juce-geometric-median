@@ -40,8 +40,10 @@ public:
     virtual ~CoordinateCluster();
 
     std::vector<Coordinates> calculateMiddlePointByOurAlgorithm() const;
-    std::vector<Coordinates> calculateMiddlePointByAverageMassSpread() const;
+    std::vector<Coordinates> calculateMiddlePointByAverageMassSpread();
     std::vector<Coordinates> calculateMiddlePointByMedianMassSpread() const;
 private:
     std::vector<Coordinates*> coordinateList;
+
+    std::vector<Coordinates> findTheNearestToThePoint(Coordinates &thePoint) const;
 };

@@ -56,7 +56,7 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByOurAlgorithm()
     return bestCoordinates;
 }
 
-std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByAverageMassSpread() const {
+std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByAverageMassSpread() {
     Coordinates averageCoordinates{0, 0};
     for (auto coord : coordinateList) {
         averageCoordinates.setLatitude(averageCoordinates.getLatitude() + coord->getLatitude());
@@ -65,36 +65,51 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByAverageMassSpr
     averageCoordinates.setLatitude(averageCoordinates.getLatitude()/(float)coordinateList.size());
     averageCoordinates.setLongitude(averageCoordinates.getLongitude()/(float)coordinateList.size());
 
-    size_t foundIndex{0};
-    float minDistance = 1000000;
-    for (int i = 0; i < coordinateList.size(); i++) {
-        float distance  = calculateDistance(&averageCoordinates, coordinateList[i]);
-        if (distance < minDistance) {
-            minDistance = distance;
-            foundIndex = i;
-        }
-    }
-
-    std::vector<Coordinates> bestCoordinates;
-    if (coordinateList.size() > foundIndex){
-        bestCoordinates.push_back(*coordinateList[foundIndex]);
-    }
+    std::vector<Coordinates> bestCoordinates = findTheNearestToThePoint(averageCoordinates);
 
     return bestCoordinates;
 }
 
-std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByMedianMassSpread() const {
+std::vector<Coordinates> CoordinateCluster::findTheNearestToThePoint(Coordinates &thePoint) const {
+    float minDistance = 1000000;
+    for (auto &coord : coordinateList) {
+        float distance  = calculateDistance(&thePoint, coord);
+        if (distance < minDistance) {
+            minDistance = distance;
+        }
+    }
     std::vector<Coordinates> bestCoordinates;
-    auto sortedCoordinateList = coordinateList;
-    std::sort(std::begin(sortedCoordinateList), std::end(sortedCoordinateList),
-              [](auto&a, const auto&b){return *a < *b;});
-    if (sortedCoordinateList.empty())
-        return bestCoordinates;
-    size_t theMiddle = (size_t)std::floor(sortedCoordinateList.size() / 2.0f);
-    bestCoordinates.push_back(*sortedCoordinateList[theMiddle]);
-    if (sortedCoordinateList.size() % 2 == 0)
-        bestCoordinates.push_back(*sortedCoordinateList[theMiddle-1]);
+    for (auto &coord : coordinateList) {
+        float distance = calculateDistance(&thePoint, coord);
+        if (distance == minDistance)
+            bestCoordinates.push_back(*coord);
+    }
     return bestCoordinates;
+}
+
+std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByMedianMassSpread() const {
+    if (coordinateList.empty())
+        return {};
+    auto coordinateListSortedByLatitude = coordinateList;
+    std::sort(std::begin(coordinateListSortedByLatitude), std::end(coordinateListSortedByLatitude),
+              [](const auto &a, const auto &b){return a->getLatitude() < b->getLatitude();});
+    auto coordinateListSortedByLongitude = coordinateList;
+    std::sort(std::begin(coordinateListSortedByLongitude), std::end(coordinateListSortedByLongitude),
+              [](const auto &a, const auto &b){return a->getLongitude() < b->getLongitude();});
+
+    size_t theMiddleByLatitude = (size_t)std::floor(coordinateListSortedByLatitude.size() / 2.0f);
+    size_t theMiddleByLongitude = (size_t)std::floor(coordinateListSortedByLongitude.size() / 2.0f);
+    Coordinates theMiddlePoint{coordinateListSortedByLatitude[theMiddleByLatitude]->getLatitude(),
+                               coordinateListSortedByLongitude[theMiddleByLongitude]->getLongitude()};
+    if (coordinateListSortedByLatitude.size() % 2 == 0) {
+        theMiddlePoint.setLatitude(
+                (theMiddlePoint.getLatitude() + coordinateListSortedByLatitude[theMiddleByLatitude-1]->getLatitude()) /
+                2.0f);
+        theMiddlePoint.setLongitude(
+                (theMiddlePoint.getLongitude() + coordinateListSortedByLongitude[theMiddleByLongitude-1]->getLongitude()) /
+                2.0f);
+    }
+    return findTheNearestToThePoint(theMiddlePoint);
 }
 
 
