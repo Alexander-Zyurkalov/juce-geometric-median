@@ -92,6 +92,8 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByMedianMassSpre
         return bestCoordinates;
     size_t theMiddle = (size_t)std::floor(sortedCoordinateList.size() / 2.0f);
     bestCoordinates.push_back(*sortedCoordinateList[theMiddle]);
+    if (sortedCoordinateList.size() % 2 == 0)
+        bestCoordinates.push_back(*sortedCoordinateList[theMiddle-1]);
     return bestCoordinates;
 }
 
