@@ -138,11 +138,7 @@ bool Coordinates::operator!=(const Coordinates &rhs) const {
 }
 
 bool Coordinates::operator<(const Coordinates &rhs) const {
-    if (latitude < rhs.latitude)
-        return true;
-    if (rhs.latitude < latitude)
-        return false;
-    return longitude < rhs.longitude;
+    return latitude*longitude < rhs.latitude*rhs.longitude;
 }
 
 bool Coordinates::operator>(const Coordinates &rhs) const {
