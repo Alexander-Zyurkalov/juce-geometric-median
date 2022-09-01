@@ -3,11 +3,12 @@
 
 class AttentionPoint: public juce::Component{
 public:
-    explicit AttentionPoint(const juce::Colour &pointColour);
+    explicit AttentionPoint(const juce::Colour &pointColour, const float size);
 
     void paint(juce::Graphics &g) override;
 private:
     juce::Colour pointColour;
+    float size;
 };
 
 class MyPoint: public  juce::Component{
@@ -40,7 +41,7 @@ private:
 
     void recalculateAnyAttentionPointsPosition(const std::vector<Coordinates> &coordinateList,
                                                std::vector<AttentionPoint*> &attentionPoints,
-                                               juce::Colour pointColour);
+                                               juce::Colour pointColour, const float size);
 };
 
 
