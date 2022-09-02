@@ -5,8 +5,10 @@ target_sources(JuceGeometricMedian
         gui/GeometricMedianWindow.cpp
         gui/PointsArea.cpp
         domain/CoordinateCluster.cpp
+        gui/ScalingService.cpp
 )
 target_sources(JuceGeometricMedianTests
     PRIVATE
         domain/CoordinateCluster.cpp
+        gui/ScalingService.cpp
         )
