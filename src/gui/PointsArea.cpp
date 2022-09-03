@@ -42,17 +42,19 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
     juce::Rectangle<int> bounds = point->getBoundsInParent();
     int x = event.getPosition().getX();
     int y = event.getPosition().getY();
-    bounds.setX(bounds.getX() + x - bounds.getWidth()/2);
-    bounds.setY(bounds.getY() + y - bounds.getHeight()/2);
-    if (bounds.getX() < 0)
-        bounds.setX(0);
-    if (bounds.getY() < 0 )
-        bounds.setY(0);
-    if (bounds.getX() > point->getParentWidth() - bounds.getWidth())
-        bounds.setX(point->getParentWidth() - bounds.getWidth());
-    if (bounds.getY() > point->getParentHeight() - bounds.getHeight())
-        bounds.setY(point->getParentHeight() - bounds.getHeight());
+    int newX = bounds.getX() + x - bounds.getWidth() / 2;
+    int newY = bounds.getY() + y - bounds.getHeight() / 2;
+    if (newX < 0)
+        newX = 0;
+    if (newY < 0 )
+        newY = 0;
+    if (newX > point->getParentWidth() - bounds.getWidth())
+        newX = point->getParentWidth() - bounds.getWidth();
+    if (newY > point->getParentHeight() - bounds.getHeight())
+        newY = point->getParentHeight() - bounds.getHeight();
 
+    bounds.setX(newX);
+    bounds.setY(newY);
     point->setBounds(bounds);
     coordinateCluster.setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
 
