@@ -1,15 +1,16 @@
 #include "ScalingService.h"
 
 void ScalingService::scale(float scalePercentageDelta, float xScreen, float yScreen) {
-
+    xOffset += xScreen;
+    yOffset += yScreen;
 }
 
 float ScalingService::xToDomainX(float x) {
-    return 0;
+    return x + xOffset;
 }
 
 float ScalingService::yToDomainY(float y) {
-    return 0;
+    return y + yOffset;
 }
 
 float ScalingService::xToScreenX(float x) {

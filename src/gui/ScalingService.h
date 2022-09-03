@@ -1,7 +1,7 @@
 #include "../domain/CoordinateCluster.h"
 
 class ScalingService {
-
+public:
     float xToDomainX(float x);
     float yToDomainY(float y);
 
