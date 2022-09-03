@@ -53,13 +53,16 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
     if (newY > point->getParentHeight() - bounds.getHeight())
         newY = point->getParentHeight() - bounds.getHeight();
 
+    movePoint(point, newX, newY);
+}
+
+void PointsArea::movePoint(MyPoint *point, int newX, int newY) {
+    juce::Rectangle<int> bounds = point->getBoundsInParent();
     bounds.setX(newX);
     bounds.setY(newY);
     point->setBounds(bounds);
     coordinateCluster.setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
-
     recalculateAttentionPointsPosition();
-
 }
 
 void PointsArea::recalculateAttentionPointsPosition() {
@@ -94,6 +97,12 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
         if (!attentionPoint->isVisible()){
             addAndMakeVisible(attentionPoint, 0);
         }
+    }
+}
+
+void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) {
+    for (MyPoint *&point: points) {
+        movePoint(point, point->getX() + wheel.deltaX, point->getY() + wheel.deltaY);
     }
 }
 

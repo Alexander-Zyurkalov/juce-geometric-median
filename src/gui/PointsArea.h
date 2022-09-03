@@ -30,6 +30,9 @@ public:
     void paint(juce::Graphics &g) override;
     void addPoint();
     void mouseDrag(const juce::MouseEvent &event) override;
+
+    void mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) override;
+
 private:
     std::vector<MyPoint*> points;
     CoordinateCluster coordinateCluster;
@@ -42,6 +45,8 @@ private:
     void recalculateAnyAttentionPointsPosition(const std::vector<Coordinates> &coordinateList,
                                                std::vector<AttentionPoint*> &attentionPoints,
                                                juce::Colour pointColour, const float size);
+
+    void movePoint(MyPoint *point, int newX, int newY);
 };
 
 
