@@ -14,9 +14,9 @@ float ScalingService::yToDomainY(float y) {
 }
 
 float ScalingService::xToScreenX(float x) {
-    return 0;
+    return x - xOffset;
 }
 
 float ScalingService::yToScreenY(float y) {
-    return 0;
+    return y - yOffset;
 }

@@ -5,20 +5,30 @@
 TEST_CASE("offset without scaling"){
     ScalingService scalingService;
     SECTION("screen to domain coordinates"){
-        using namespace Catch::literals;
         scalingService.scale(0.0, 1, 2);
-        REQUIRE(scalingService.xToDomainX(10) == 11.0_a);
-        REQUIRE(scalingService.yToDomainY(5) == 7.0_a);
+        REQUIRE(scalingService.xToDomainX(10.0f) == 11.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == 7.0f);
 
         scalingService.scale(0.0, -1, -2);
-        REQUIRE(scalingService.xToDomainX(10) == 10.0_a);
-        REQUIRE(scalingService.yToDomainY(5) == 5.0_a);
+        REQUIRE(scalingService.xToDomainX(10.0f) == 10.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == 5.0f);
 
         scalingService.scale(0.0, -1, -2);
-        REQUIRE(scalingService.xToDomainX(10) == 9.0_a);
-        REQUIRE(scalingService.yToDomainY(5) == 3.0_a);
+        REQUIRE(scalingService.xToDomainX(10.0f) == 9.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == 3.0f);
     }
     SECTION("domain to screen"){
+        scalingService.scale(0.0, 1, 2);
+        REQUIRE(scalingService.xToScreenX(11.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(7.0f) == 5.0f);
+
+        scalingService.scale(0.0, -1, -2);
+        REQUIRE(scalingService.xToScreenX(10.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(5.0f) == 5.0f);
+
+        scalingService.scale(0.0, -1, -2);
+        REQUIRE(scalingService.xToScreenX(9.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(3.0f) == 5.0f);
 
     }
 }
