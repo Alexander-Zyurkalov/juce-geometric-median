@@ -101,7 +101,7 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
 }
 
 void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) {
-    scalingService.scale(0.0f, wheel.deltaX, wheel.deltaY);
+    scalingService.scale(0.0f, wheel.deltaX*2.5, wheel.deltaY*2);
     for (MyPoint *&point: points) {
         juce::Rectangle<int> bounds = point->getBoundsInParent();
         auto coordinates = coordinateCluster.getCoordinates(point->getIndex());
