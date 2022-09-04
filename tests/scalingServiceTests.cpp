@@ -32,3 +32,35 @@ TEST_CASE("offset without scaling"){
         REQUIRE(scalingService.yToScreenY(3.0f) == 1.0f);
     }
 }
+
+TEST_CASE("offset with scaling"){
+    ScalingService scalingService;
+    SECTION("screen to domain coordinates"){
+        scalingService.scale(1.0, 0, 0);
+        REQUIRE(scalingService.xToDomainX(10.0f) == 20.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == 10.0f);
+
+        scalingService.scale(-1.5, 0, 0);
+        REQUIRE(scalingService.xToDomainX(10.0f) == 5.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == 2.5f);
+
+        scalingService.scale(0, 4, 4);
+        REQUIRE(scalingService.xToDomainX(10.0f) == 3.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == 0.5f);
+    };
+    SECTION("domain coordinates to screen") {
+        scalingService.scale(1.0, 0, 0);
+        REQUIRE(scalingService.xToScreenX(20.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(10.0f) == 5.0f);
+
+        scalingService.scale(-1.5, 0, 0);
+        REQUIRE(scalingService.xToScreenX(5.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(2.5f) == 5.0f);
+
+        scalingService.scale(0, 4, 4);
+        REQUIRE(scalingService.xToScreenX(3.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(0.5f) == 5.0f);
+
+    }
+
+}

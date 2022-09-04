@@ -2,13 +2,13 @@
 
 class ScalingService {
 public:
-    float xToDomainX(float x);
-    float yToDomainY(float y);
+    float xToDomainX(float x) const;
+    float yToDomainY(float y) const;
 
-    float xToScreenX(float x);
-    float yToScreenY(float y);
+    float xToScreenX(float x) const;
+    float yToScreenY(float y) const;
 
-    void scale(float scalePercentageDelta, float xScreen, float yScreen);
+    void scale(float scalePercentageDelta, float xScreenDelta, float yScreenDelta);
 
 private:
     float xOffset{0}, yOffset{0};
