@@ -112,6 +112,13 @@ std::vector<Coordinates> CoordinateCluster::calculateMiddlePointByMedianMassSpre
     return findTheNearestToThePoint(theMiddlePoint);
 }
 
+Coordinates CoordinateCluster::getCoordinates(std::size_t index) const {
+    if (index < coordinateList.size())
+        return *coordinateList[index];
+    else
+        return {0, 0};
+}
+
 
 float calculateDistance(const Coordinates *pointA, const Coordinates *pointB)  {
     float lat1 = pointA->getLatitude();

@@ -1,5 +1,6 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "../domain/CoordinateCluster.h"
+#include "ScalingService.h"
 
 class AttentionPoint: public juce::Component{
 public:
@@ -39,6 +40,7 @@ private:
     std::vector<AttentionPoint*> redAttentionPoints;
     std::vector<AttentionPoint*> greenAttentionPoints;
     std::vector<AttentionPoint*> blueAttentionPoints;
+    ScalingService scalingService;
 
     void recalculateAttentionPointsPosition();
 

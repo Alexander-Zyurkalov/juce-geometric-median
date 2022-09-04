@@ -61,7 +61,10 @@ void PointsArea::movePoint(MyPoint *point, int newX, int newY) {
     bounds.setX(newX);
     bounds.setY(newY);
     point->setBounds(bounds);
-    coordinateCluster.setCoordinates(point->getIndex(), (float)bounds.getX(), (float)bounds.getY());
+    coordinateCluster.setCoordinates(
+            point->getIndex(),
+            scalingService.xToDomainX((float)bounds.getX()),
+            scalingService.yToDomainY((float)bounds.getY()));
     recalculateAttentionPointsPosition();
 }
 
@@ -90,9 +93,11 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
         }
         AttentionPoint *attentionPoint{attentionPoints[i]};
         Coordinates coordinates = coordinateList[i];
+        int newX = (int)scalingService.xToScreenX(coordinates.getLatitude());
+        int newY = (int)scalingService.yToScreenY(coordinates.getLongitude());
         attentionPoint->setBounds(
-                (int)coordinates.getLatitude() - (int)(size-10)/2,
-                (int)coordinates.getLongitude() - (int)(size-10)/2,
+                newX - (int)(size - 10) / 2,
+                newY - (int)(size - 10) / 2,
                 size, size);
         if (!attentionPoint->isVisible()){
             addAndMakeVisible(attentionPoint, 0);
@@ -101,8 +106,16 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
 }
 
 void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) {
+    scalingService.scale(0.0f, wheel.deltaX, wheel.deltaY);
     for (MyPoint *&point: points) {
-        movePoint(point, point->getX() + wheel.deltaX, point->getY() + wheel.deltaY);
+        juce::Rectangle<int> bounds = point->getBoundsInParent();
+        auto coordinates = coordinateCluster.getCoordinates(point->getIndex());
+        int newX = (int)scalingService.xToScreenX(coordinates.getLatitude());
+        int newY = (int)scalingService.yToScreenY(coordinates.getLongitude());
+        bounds.setX(newX);
+        bounds.setY(newY);
+        point->setBounds(bounds);
+        recalculateAttentionPointsPosition();
     }
 }
 

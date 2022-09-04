@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 
 
@@ -36,6 +37,7 @@ class CoordinateCluster {
 public:
     void addCoordinates(float latitude, float longitude);
     void setCoordinates(std::size_t index, float latitude, float longitude);
+    Coordinates getCoordinates(std::size_t index) const;
 
     virtual ~CoordinateCluster();
 
