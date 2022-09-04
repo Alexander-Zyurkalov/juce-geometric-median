@@ -6,17 +6,17 @@ void ScalingService::scale(float scalePercentageDelta, float xScreen, float yScr
 }
 
 float ScalingService::xToDomainX(float x) {
-    return x + xOffset;
-}
-
-float ScalingService::yToDomainY(float y) {
-    return y + yOffset;
-}
-
-float ScalingService::xToScreenX(float x) {
     return x - xOffset;
 }
 
-float ScalingService::yToScreenY(float y) {
+float ScalingService::yToDomainY(float y) {
     return y - yOffset;
+}
+
+float ScalingService::xToScreenX(float x) {
+    return x + xOffset;
+}
+
+float ScalingService::yToScreenY(float y) {
+    return y + yOffset;
 }
