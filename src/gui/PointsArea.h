@@ -48,7 +48,6 @@ private:
                                                std::vector<AttentionPoint*> &attentionPoints,
                                                juce::Colour pointColour, const float size);
 
-    void movePoint(MyPoint *point, int newX, int newY);
 };
 
 

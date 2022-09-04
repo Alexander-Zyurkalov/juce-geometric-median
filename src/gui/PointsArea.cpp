@@ -53,11 +53,6 @@ void PointsArea::mouseDrag(const juce::MouseEvent &event) {
     if (newY > point->getParentHeight() - bounds.getHeight())
         newY = point->getParentHeight() - bounds.getHeight();
 
-    movePoint(point, newX, newY);
-}
-
-void PointsArea::movePoint(MyPoint *point, int newX, int newY) {
-    juce::Rectangle<int> bounds = point->getBoundsInParent();
     bounds.setX(newX);
     bounds.setY(newY);
     point->setBounds(bounds);
