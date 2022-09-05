@@ -8,7 +8,8 @@ public:
     float xToScreenX(float x) const;
     float yToScreenY(float y) const;
 
-    void scale(float scalePercentageDelta, float xScreenDelta, float yScreenDelta);
+    void scale(float scalePercentageDelta, float xScreen, float yScreen);
+    void move(float xScreenDelta, float yScreenDelta);
 
 private:
     float xOffset{0}, yOffset{0};

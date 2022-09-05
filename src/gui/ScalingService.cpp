@@ -2,8 +2,7 @@
 
 void ScalingService::scale(float scalePercentageDelta, float xScreenDelta, float yScreenDelta) {
     scaleCoefficient += scalePercentageDelta;
-    xOffset += xScreenDelta;
-    yOffset += yScreenDelta;
+
 }
 
 float ScalingService::xToDomainX(float x) const {
@@ -20,4 +19,9 @@ float ScalingService::xToScreenX(float x) const {
 
 float ScalingService::yToScreenY(float y) const {
     return y / scaleCoefficient + yOffset;
+}
+
+void ScalingService::move(float xScreenDelta, float yScreenDelta) {
+    xOffset += xScreenDelta;
+    yOffset += yScreenDelta;
 }
