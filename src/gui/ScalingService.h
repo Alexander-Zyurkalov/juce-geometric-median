@@ -17,8 +17,18 @@ private:
 };
 
 /*
- * x = xs / scaleCoefficient + OldxOffset
- * x = xs / newScaleCoefficient + newxOffset
+ * x = (xs - oldOffset)*oldC
+ * x = (xs - newOffset)*newC
  *
- * newXOffset = xs / scaleCoefficient + OldxOffset - xs / newScaleCoefficient
+ * newC = x/(xs - newOffset)
+ * newC = (xs - oldOffset)*oldC/(xs - newOffset)
+ *
+ *
+ *
+ * xs = x /scaleCoefficient + xOffset;
+ * xs - xOffSet = x /scaleCoefficient
+ * x = (xs-OldxOffset)*OldscaleCoefficient
+ * x = (xs-newxOffset)*newscaleCoefficient
+ * (xs-newxOffset)*newscaleCoefficient = (xs-OldxOffset)*OldscaleCoefficient
+ * newscaleCoefficient = (xs-OldxOffset)*OldscaleCoefficient / (xs-newxOffset)
  */
