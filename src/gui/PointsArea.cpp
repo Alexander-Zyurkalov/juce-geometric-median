@@ -102,7 +102,7 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
 
 void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) {
     if (event.mods.isCommandDown())
-        scalingService.scale(-wheel.deltaY, 0, 0);
+        scalingService.scale(-wheel.deltaY, event.getMouseDownX(), event.getMouseDownY());
     else
         scalingService.move( wheel.deltaX*2.5f, wheel.deltaY*2);
     for (MyPoint *&point: points) {

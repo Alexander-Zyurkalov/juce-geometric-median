@@ -45,8 +45,8 @@ TEST_CASE("offset with scaling"){
         REQUIRE(scalingService.yToDomainY(5.0f) == 2.5f);
 
         scalingService.move(4, 4);
-        REQUIRE(scalingService.xToDomainX(10.0f) == 3.0f);
-        REQUIRE(scalingService.yToDomainY(5.0f) == 0.5f);
+        REQUIRE(scalingService.xToDomainX(10.0f) == 1.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == -1.5f);
     };
     SECTION("domain coordinates to screen") {
         scalingService.scale(1.0, 0, 0);
@@ -58,8 +58,8 @@ TEST_CASE("offset with scaling"){
         REQUIRE(scalingService.yToScreenY(2.5f) == 5.0f);
 
         scalingService.move( 4, 4);
-        REQUIRE(scalingService.xToScreenX(3.0f) == 10.0f);
-        REQUIRE(scalingService.yToScreenY(0.5f) == 5.0f);
+        REQUIRE(scalingService.xToScreenX(1.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(-1.5f) == 5.0f);
 
     }
 
