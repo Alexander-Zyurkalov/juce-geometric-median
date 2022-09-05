@@ -16,3 +16,9 @@ private:
     float scaleCoefficient{1};
 };
 
+/*
+ * x = xs / scaleCoefficient + OldxOffset
+ * x = xs / newScaleCoefficient + newxOffset
+ *
+ * newXOffset = xs / scaleCoefficient + OldxOffset - xs / newScaleCoefficient
+ */

@@ -28,8 +28,8 @@ TEST_CASE("offset without scaling"){
         REQUIRE(scalingService.yToScreenY(5.0f) == 5.0f);
 
         scalingService.move(-1, -2);
-        REQUIRE(scalingService.xToScreenX(9.0f) == 8.0f);
-        REQUIRE(scalingService.yToScreenY(3.0f) == 1.0f);
+        REQUIRE(scalingService.xToScreenX(11.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(7.0f) == 5.0f);
     }
 }
 
@@ -41,12 +41,12 @@ TEST_CASE("offset with scaling"){
         REQUIRE(scalingService.yToDomainY(5.0f) == 10.0f);
 
         scalingService.scale(-1.5, 0, 0);
-        REQUIRE(scalingService.xToDomainX(10.0f) == 5.0f);
-        REQUIRE(scalingService.yToDomainY(5.0f) == 2.5f);
+        REQUIRE(scalingService.xToDomainX(10.0f) == -10.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == -5.0f);
 
         scalingService.move(4, 4);
-        REQUIRE(scalingService.xToDomainX(10.0f) == 1.0f);
-        REQUIRE(scalingService.yToDomainY(5.0f) == -1.5f);
+        REQUIRE(scalingService.xToDomainX(10.0f) == -6.0f);
+        REQUIRE(scalingService.yToDomainY(5.0f) == -1.0f);
     };
     SECTION("domain coordinates to screen") {
         scalingService.scale(1.0, 0, 0);
@@ -54,12 +54,12 @@ TEST_CASE("offset with scaling"){
         REQUIRE(scalingService.yToScreenY(10.0f) == 5.0f);
 
         scalingService.scale(-1.5, 0, 0);
-        REQUIRE(scalingService.xToScreenX(5.0f) == 10.0f);
-        REQUIRE(scalingService.yToScreenY(2.5f) == 5.0f);
+        REQUIRE(scalingService.xToScreenX(5.0f) == -5.0f);
+        REQUIRE(scalingService.yToScreenY(2.5f) == -2.5f);
 
         scalingService.move( 4, 4);
-        REQUIRE(scalingService.xToScreenX(1.0f) == 10.0f);
-        REQUIRE(scalingService.yToScreenY(-1.5f) == 5.0f);
+        REQUIRE(scalingService.xToScreenX(-6.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(-1.0f) == 5.0f);
 
     }
 
