@@ -114,8 +114,8 @@ void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::Mouse
         bounds.setX(newX);
         bounds.setY(newY);
         point->setBounds(bounds);
-        recalculateAttentionPointsPosition();
     }
+    recalculateAttentionPointsPosition();
 }
 
 void MyPoint::paint(juce::Graphics &g) {

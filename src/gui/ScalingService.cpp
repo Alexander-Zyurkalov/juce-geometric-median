@@ -16,14 +16,14 @@ float ScalingService::yToDomainY(float y) const {
 }
 
 float ScalingService::xToScreenX(float x) const {
-    return (x  + xOffset) / scaleCoefficient ;
+    return (x  + xOffset) / scaleCoefficient;
 }
 
 float ScalingService::yToScreenY(float y) const {
-    return (y + yOffset) / scaleCoefficient ;
+    return (y + yOffset) / scaleCoefficient;
 }
 
 void ScalingService::move(float xScreenDelta, float yScreenDelta) {
-    xOffset += xScreenDelta;
-    yOffset += yScreenDelta;
+    xOffset += xScreenDelta * scaleCoefficient;
+    yOffset += yScreenDelta * scaleCoefficient;
 }
