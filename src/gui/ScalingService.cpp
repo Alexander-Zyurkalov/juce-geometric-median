@@ -1,13 +1,10 @@
 #include "ScalingService.h"
 
 void ScalingService::scale(float scalePercentageDelta, float xScreen, float yScreen) {
-    float oldX = xToDomainX(xScreen);
-    float oldY = yToDomainY(yScreen);
+    auto oldCoefficient =  scaleCoefficient;
     scaleCoefficient += scalePercentageDelta;
-    float newX = xToDomainX(xScreen);
-    float newY = yToDomainY(yScreen);
-//    xOffset += newX - oldX;
-//    yOffset += newY - oldY;
+    xOffset = xScreen * scaleCoefficient - (xScreen * oldCoefficient - xOffset) ;
+    yOffset = yScreen * scaleCoefficient - (yScreen * oldCoefficient - yOffset);
 }
 
 float ScalingService::xToDomainX(float x) const {

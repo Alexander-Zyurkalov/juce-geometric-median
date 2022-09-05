@@ -63,4 +63,19 @@ TEST_CASE("offset with scaling"){
 
     }
 
+    SECTION("just scaling") {
+        REQUIRE(scalingService.xToScreenX(10.0f) == 10.0f);
+        REQUIRE(scalingService.yToScreenY(10.0f) == 10.0f);
+        auto oldDomainX = scalingService.xToDomainX(10.0f);
+        auto oldDomainY = scalingService.yToDomainY(10.0f);
+
+        scalingService.scale(1.0, 10.0f, 10.0f);
+        auto newDomainX = scalingService.xToDomainX(10.0f);
+        auto newDomainY = scalingService.yToDomainY(10.0f);
+        REQUIRE(oldDomainX == newDomainX);
+        REQUIRE(oldDomainY == newDomainY);
+
+    }
+
+
 }
