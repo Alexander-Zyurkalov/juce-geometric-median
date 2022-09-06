@@ -1,6 +1,6 @@
 #include "PointsArea.h"
 #include <iostream>
-PointsArea::PointsArea(){
+PointsArea::PointsArea(juce::ScrollBar& verticalScrollBar): verticalScrollBar(verticalScrollBar){
     addPoint();
     addPoint();
 }
@@ -116,6 +116,7 @@ void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::Mouse
         point->setBounds(bounds);
     }
     recalculateAttentionPointsPosition();
+    reflectMovesToScrollBars();
 }
 
 void MyPoint::paint(juce::Graphics &g) {
@@ -134,3 +135,19 @@ void AttentionPoint::paint(juce::Graphics &g) {
 }
 
 AttentionPoint::AttentionPoint(const juce::Colour &pointColour, const float size) : pointColour(pointColour), size(size) {}
+
+void PointsArea::reflectMovesToScrollBars() {
+
+    auto comp = [](MyPoint* const& a, MyPoint* const& b){
+        return a->getBounds().getY() < b->getBounds().getY();
+    };
+
+    auto minAndMaxByY = std::minmax_element(std::begin(points), std::end(points), comp);
+    int getMinY = minAndMaxByY.first[0]->getBounds().getY();
+    int yMin = getMinY > 0 ? 0 : getMinY;
+    int getMaxY = minAndMaxByY.second[0]->getBounds().getY();
+    int height = this->getHeight() - 1;
+    int yMax = getMaxY < height ? height : getMaxY;
+    verticalScrollBar.setRangeLimits(yMin, yMax);
+
+}

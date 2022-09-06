@@ -26,13 +26,15 @@ private:
 
 class PointsArea: public juce::Component{
 public:
-    PointsArea();
+    PointsArea(juce::ScrollBar& verticalScrollBar);
     ~PointsArea();
     void paint(juce::Graphics &g) override;
     void addPoint();
     void mouseDrag(const juce::MouseEvent &event) override;
 
     void mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) override;
+    void reflectMovesToScrollBars();
+
 
 private:
     std::vector<MyPoint*> points;
@@ -41,6 +43,8 @@ private:
     std::vector<AttentionPoint*> greenAttentionPoints;
     std::vector<AttentionPoint*> blueAttentionPoints;
     ScalingService scalingService;
+    juce::ScrollBar &verticalScrollBar;
+
 
     void recalculateAttentionPointsPosition();
 

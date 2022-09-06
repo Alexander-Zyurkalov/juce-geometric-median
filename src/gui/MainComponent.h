@@ -9,7 +9,11 @@ public:
 
 private:
     juce::TextButton addNewPointButton;
-    PointsArea pointsArea;
+    juce::ScrollBar verticalScrollBar{true};
+    juce::ScrollBar horizontalScrollBar{false};
+    PointsArea pointsArea{verticalScrollBar};
+
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
 
