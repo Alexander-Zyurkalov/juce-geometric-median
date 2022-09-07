@@ -106,11 +106,15 @@ void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::Mouse
         scalingService.scale(-wheel.deltaY, event.getMouseDownX(), event.getMouseDownY());
     else
         scalingService.move( wheel.deltaX*2.5f, wheel.deltaY*2);
+    updatePositionOfAllPoints();
+}
+
+void PointsArea::updatePositionOfAllPoints() {
     for (MyPoint *&point: points) {
         juce::Rectangle<int> bounds = point->getBoundsInParent();
         auto coordinates = coordinateCluster.getCoordinates(point->getIndex());
-        int newX = (int)scalingService.xToScreenX(coordinates.getLatitude());
-        int newY = (int)scalingService.yToScreenY(coordinates.getLongitude());
+        int newX = (int) scalingService.xToScreenX(coordinates.getLatitude());
+        int newY = (int) scalingService.yToScreenY(coordinates.getLongitude());
         bounds.setX(newX);
         bounds.setY(newY);
         point->setBounds(bounds);
@@ -143,11 +147,16 @@ void PointsArea::reflectMovesToScrollBars() {
     };
 
     auto minAndMaxByY = std::minmax_element(std::begin(points), std::end(points), comp);
-    int getMinY = minAndMaxByY.first[0]->getBounds().getY();
+    int getMinY = minAndMaxByY.first[0]->getBounds().getY() - 15;
     int yMin = getMinY > 0 ? 0 : getMinY;
-    int getMaxY = minAndMaxByY.second[0]->getBounds().getY();
+    int getMaxY = minAndMaxByY.second[0]->getBounds().getY() + 15;
     int height = this->getHeight() - 1;
     int yMax = getMaxY < height ? height : getMaxY;
     verticalScrollBar.setRangeLimits(yMin, yMax);
 
+}
+
+void PointsArea::scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) {
+    scalingService.move(0, -newRangeStart);
+    updatePositionOfAllPoints();
 }

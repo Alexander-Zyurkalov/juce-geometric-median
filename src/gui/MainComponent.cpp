@@ -16,6 +16,7 @@ MainComponent::MainComponent() {
     verticalScrollBar.setRangeLimits(0,pointsArea.getBounds().getHeight()-1);
     verticalScrollBar.setCurrentRange(0,pointsArea.getBounds().getHeight()-1);
     addAndMakeVisible(verticalScrollBar);
+    verticalScrollBar.addListener(&pointsArea);
 }
 
 void MainComponent::buttonClicked(juce::Button *button) {
