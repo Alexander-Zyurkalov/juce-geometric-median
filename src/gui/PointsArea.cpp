@@ -74,7 +74,6 @@ void PointsArea::recalculateAttentionPointsPosition() {
                                           greenAttentionPoints, juce::Colours::green, 20.0);
     recalculateAnyAttentionPointsPosition(coordinateCluster.calculateMiddlePointByMedianMassSpread(),
                                           blueAttentionPoints, juce::Colours::blue, 24.0);
-
 }
 
 void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordinates> &coordinateList,
@@ -105,10 +104,17 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
 }
 
 void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) {
-    if (event.mods.isCommandDown())
+    if (event.mods.isCommandDown()) {
         scalingService.scale(-wheel.deltaY, event.getMouseDownX(), event.getMouseDownY());
-    else
-        scalingService.move( wheel.deltaX*2.5f, wheel.deltaY*2);
+        updateVerticalScrollBarPosition();
+        updateHorizontalScrollBarPosition();
+    } else {
+        scalingService.move(wheel.deltaX * 2.5f, wheel.deltaY * 2);
+        if (wheel.deltaX != 0.0f)
+            updateHorizontalScrollBarPosition();
+        if (wheel.deltaY != 0.0f)
+            updateVerticalScrollBarPosition();
+    }
     updatePositionOfAllPoints();
 }
 
@@ -123,11 +129,16 @@ void PointsArea::updatePositionOfAllPoints() {
         point->setBounds(bounds);
     }
     recalculateAttentionPointsPosition();
+}
 
-    auto getX = [](juce::Rectangle<int> bounds){return bounds.getX();};
+void PointsArea::updateVerticalScrollBarPosition() {
     auto getY = [](juce::Rectangle<int> bounds){return bounds.getY();};
-    reflectMovesToAScrollBar(horizontalScrollBar, getX, this->getWidth() - 1);
-    reflectMovesToAScrollBar(verticalScrollBar, getY, this->getHeight() - 1);
+    reflectMovesToAScrollBar(verticalScrollBar, getY, getHeight() - 1);
+}
+
+void PointsArea::updateHorizontalScrollBarPosition() {
+    auto getX = [](juce::Rectangle<int> bounds){return bounds.getX();};
+    reflectMovesToAScrollBar(horizontalScrollBar, getX, getWidth() - 1);
 }
 
 void MyPoint::paint(juce::Graphics &g) {
@@ -166,9 +177,15 @@ void PointsArea::reflectMovesToAScrollBar(
 
 
 void PointsArea::scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) {
-    if (scrollBarThatHasMoved == &verticalScrollBar)
+    if (scrollBarThatHasMoved == &verticalScrollBar) {
         scalingService.move(0, -newRangeStart);
-    if (scrollBarThatHasMoved == &horizontalScrollBar)
+        updatePositionOfAllPoints();
+        updateVerticalScrollBarPosition();
+    }
+    if (scrollBarThatHasMoved == &horizontalScrollBar) {
         scalingService.move(-newRangeStart, 0);
-    updatePositionOfAllPoints();
+        updatePositionOfAllPoints();
+        updateHorizontalScrollBarPosition();
+    }
+
 }

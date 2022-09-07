@@ -59,6 +59,10 @@ private:
                                                juce::Colour pointColour, const float size);
 
     void updatePositionOfAllPoints();
+
+    void updateHorizontalScrollBarPosition();
+
+    void updateVerticalScrollBarPosition();
 };
 
 
