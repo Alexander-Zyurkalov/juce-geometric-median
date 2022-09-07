@@ -17,6 +17,7 @@ MainComponent::MainComponent() {
     verticalScrollBar.setCurrentRange(0,pointsArea.getBounds().getHeight()-1);
     addAndMakeVisible(verticalScrollBar);
     verticalScrollBar.addListener(&pointsArea);
+    verticalScrollBar.addMouseListener(&myScrollBarMouseListener, false);
 
     horizontalScrollBar.setBounds(10, 525, 565, 15);
     horizontalScrollBar.setAutoHide(true);
@@ -24,6 +25,7 @@ MainComponent::MainComponent() {
     horizontalScrollBar.setCurrentRange(0, pointsArea.getBounds().getWidth() - 1);
     addAndMakeVisible(horizontalScrollBar);
     horizontalScrollBar.addListener(&pointsArea);
+    horizontalScrollBar.addMouseListener(&myScrollBarMouseListener, false);
 
 }
 

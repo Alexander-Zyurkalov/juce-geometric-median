@@ -40,6 +40,8 @@ public:
             int areaSize);
 
     void scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) override;
+    void updateHorizontalScrollBarPosition();
+    void updateVerticalScrollBarPosition();
 
 private:
     std::vector<MyPoint*> points;
@@ -62,9 +64,15 @@ private:
 
     void updatePositionOfAllPoints();
 
-    void updateHorizontalScrollBarPosition();
 
-    void updateVerticalScrollBarPosition();
 };
 
 
+class MyScrollBarMouseListener: public juce::MouseListener{
+public:
+    explicit MyScrollBarMouseListener(PointsArea &pointsArea);
+
+    void mouseUp(const juce::MouseEvent &event) override;
+private:
+    PointsArea& pointsArea;
+};

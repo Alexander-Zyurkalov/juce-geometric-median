@@ -196,3 +196,10 @@ void PointsArea::scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double n
     }
 
 }
+
+void MyScrollBarMouseListener::mouseUp(const juce::MouseEvent &event) {
+     pointsArea.updateHorizontalScrollBarPosition();
+     pointsArea.updateVerticalScrollBarPosition();
+}
+
+MyScrollBarMouseListener::MyScrollBarMouseListener(PointsArea &pointsArea) : pointsArea(pointsArea) {}
