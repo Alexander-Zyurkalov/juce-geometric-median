@@ -50,6 +50,8 @@ private:
     ScalingService scalingService;
     juce::ScrollBar &verticalScrollBar;
     juce::ScrollBar &horizontalScrollBar;
+    double oldVerticalRangeStart = 0;
+    double oldHorizontalRangeStart = 0;
 
 
     void recalculateAttentionPointsPosition();

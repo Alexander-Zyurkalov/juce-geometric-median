@@ -39,9 +39,10 @@ PointsArea::~PointsArea() {
 
 
 void PointsArea::mouseDrag(const juce::MouseEvent &event) {
-    if (event.eventComponent == this) {
+    if (event.eventComponent == &verticalScrollBar)
         return;
-    }
+    if (event.eventComponent == this)
+        return;
     auto *point = (MyPoint*)event.eventComponent;
     juce::Rectangle<int> bounds = point->getBoundsInParent();
     int x = event.getPosition().getX();
@@ -104,6 +105,8 @@ void PointsArea::recalculateAnyAttentionPointsPosition(const std::vector<Coordin
 }
 
 void PointsArea::mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) {
+    if (event.eventComponent == &verticalScrollBar)
+        return;
     if (event.mods.isCommandDown()) {
         scalingService.scale(-wheel.deltaY, event.getMouseDownX(), event.getMouseDownY());
         updateVerticalScrollBarPosition();
@@ -178,14 +181,16 @@ void PointsArea::reflectMovesToAScrollBar(
 
 void PointsArea::scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) {
     if (scrollBarThatHasMoved == &verticalScrollBar) {
-        scalingService.move(0, -newRangeStart);
+        double delta = oldVerticalRangeStart - newRangeStart;
+        scalingService.move(0, delta);
         updatePositionOfAllPoints();
-        updateVerticalScrollBarPosition();
+        oldVerticalRangeStart = newRangeStart;
     }
     if (scrollBarThatHasMoved == &horizontalScrollBar) {
-        scalingService.move(-newRangeStart, 0);
+        double delta = oldHorizontalRangeStart - newRangeStart;
+        scalingService.move(delta, 0);
         updatePositionOfAllPoints();
-        updateHorizontalScrollBarPosition();
+        oldHorizontalRangeStart = newRangeStart;
     }
 
 }
