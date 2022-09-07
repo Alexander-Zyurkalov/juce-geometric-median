@@ -137,11 +137,13 @@ void PointsArea::updatePositionOfAllPoints() {
 void PointsArea::updateVerticalScrollBarPosition() {
     auto getY = [](juce::Rectangle<int> bounds){return bounds.getY();};
     reflectMovesToAScrollBar(verticalScrollBar, getY, getHeight() - 1);
+    oldVerticalRangeStart = verticalScrollBar.getCurrentRangeStart();
 }
 
 void PointsArea::updateHorizontalScrollBarPosition() {
     auto getX = [](juce::Rectangle<int> bounds){return bounds.getX();};
     reflectMovesToAScrollBar(horizontalScrollBar, getX, getWidth() - 1);
+    oldHorizontalRangeStart = horizontalScrollBar.getCurrentRangeStart();
 }
 
 void MyPoint::paint(juce::Graphics &g) {
