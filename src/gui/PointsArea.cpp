@@ -149,17 +149,17 @@ AttentionPoint::AttentionPoint(const juce::Colour &pointColour, const float size
 void PointsArea::reflectMovesToVerticalScrollBar(
         const std::function<const int(juce::Rectangle<int>)>& getValueOfACoordinate) {
 
-    auto compByY = [&getValueOfACoordinate](MyPoint* const& a, MyPoint* const& b){
+    auto compByDimension = [&getValueOfACoordinate](MyPoint* const& a, MyPoint* const& b){
         return getValueOfACoordinate(a->getBounds()) < getValueOfACoordinate(b->getBounds());
     };
 
-    auto minAndMaxByY = std::minmax_element(std::begin(points), std::end(points), compByY);
-    int getMinY = getValueOfACoordinate(minAndMaxByY.first[0]->getBounds())- 15;
-    int yMin = getMinY > 0 ? 0 : getMinY;
-    int getMaxY = getValueOfACoordinate(minAndMaxByY.second[0]->getBounds()) + 15;
+    auto minAndMaxByADimension = std::minmax_element(std::begin(points), std::end(points), compByDimension);
+    int getMinDimension = getValueOfACoordinate(minAndMaxByADimension.first[0]->getBounds()) - 15;
+    int dimensionMin = getMinDimension > 0 ? 0 : getMinDimension;
+    int getMaxDimension = getValueOfACoordinate(minAndMaxByADimension.second[0]->getBounds()) + 15;
     int height = this->getHeight() - 1;
-    int yMax = getMaxY < height ? height : getMaxY;
-    verticalScrollBar.setRangeLimits(yMin, yMax);
+    int dimensionMax = getMaxDimension < height ? height : getMaxDimension;
+    verticalScrollBar.setRangeLimits(dimensionMin, dimensionMax);
 }
 
 void PointsArea::reflectMovesToHorizontalScrollBar() {
