@@ -34,8 +34,10 @@ public:
     void mouseDrag(const juce::MouseEvent &event) override;
 
     void mouseWheelMove(const juce::MouseEvent &event, const juce::MouseWheelDetails &wheel) override;
-    void reflectMovesToVerticalScrollBar(const std::function<const int(juce::Rectangle<int>)>& getValueOfACoordinate);
-    void reflectMovesToHorizontalScrollBar();
+    void reflectMovesToAScrollBar(
+            juce::ScrollBar &scrollBar,
+            const std::function<const int(juce::Rectangle<int>)>& getValueOfACoordinate,
+            int areaSize);
 
     void scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) override;
 
