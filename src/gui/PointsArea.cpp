@@ -1,5 +1,6 @@
 #include "PointsArea.h"
 #include <iostream>
+#include <functional>
 PointsArea::PointsArea(juce::ScrollBar& verticalScrollBar,
                        juce::ScrollBar& horizontalScrollBar): verticalScrollBar(verticalScrollBar),
                                                               horizontalScrollBar(horizontalScrollBar){
@@ -122,7 +123,9 @@ void PointsArea::updatePositionOfAllPoints() {
         point->setBounds(bounds);
     }
     recalculateAttentionPointsPosition();
-    reflectMovesToVerticalScrollBar();
+
+    auto getY = [](juce::Rectangle<int> bounds){return bounds.getY();};
+    reflectMovesToVerticalScrollBar(getY);
     reflectMovesToHorizontalScrollBar();
 }
 
@@ -143,16 +146,17 @@ void AttentionPoint::paint(juce::Graphics &g) {
 
 AttentionPoint::AttentionPoint(const juce::Colour &pointColour, const float size) : pointColour(pointColour), size(size) {}
 
-void PointsArea::reflectMovesToVerticalScrollBar() {
+void PointsArea::reflectMovesToVerticalScrollBar(
+        const std::function<const int(juce::Rectangle<int>)>& getValueOfACoordinate) {
 
-    auto compByY = [](MyPoint* const& a, MyPoint* const& b){
-        return a->getBounds().getY() < b->getBounds().getY();
+    auto compByY = [&getValueOfACoordinate](MyPoint* const& a, MyPoint* const& b){
+        return getValueOfACoordinate(a->getBounds()) < getValueOfACoordinate(b->getBounds());
     };
 
     auto minAndMaxByY = std::minmax_element(std::begin(points), std::end(points), compByY);
-    int getMinY = minAndMaxByY.first[0]->getBounds().getY() - 15;
+    int getMinY = getValueOfACoordinate(minAndMaxByY.first[0]->getBounds())- 15;
     int yMin = getMinY > 0 ? 0 : getMinY;
-    int getMaxY = minAndMaxByY.second[0]->getBounds().getY() + 15;
+    int getMaxY = getValueOfACoordinate(minAndMaxByY.second[0]->getBounds()) + 15;
     int height = this->getHeight() - 1;
     int yMax = getMaxY < height ? height : getMaxY;
     verticalScrollBar.setRangeLimits(yMin, yMax);
