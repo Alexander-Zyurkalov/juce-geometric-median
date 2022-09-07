@@ -1,6 +1,8 @@
 #include "PointsArea.h"
 #include <iostream>
-PointsArea::PointsArea(juce::ScrollBar& verticalScrollBar): verticalScrollBar(verticalScrollBar){
+PointsArea::PointsArea(juce::ScrollBar& verticalScrollBar,
+                       juce::ScrollBar& horizontalScrollBar): verticalScrollBar(verticalScrollBar),
+                                                              horizontalScrollBar(horizontalScrollBar){
     addPoint();
     addPoint();
 }
@@ -120,7 +122,8 @@ void PointsArea::updatePositionOfAllPoints() {
         point->setBounds(bounds);
     }
     recalculateAttentionPointsPosition();
-    reflectMovesToScrollBars();
+    reflectMovesToVerticalScrollBar();
+    reflectMovesToHorizontalScrollBar();
 }
 
 void MyPoint::paint(juce::Graphics &g) {
@@ -140,23 +143,39 @@ void AttentionPoint::paint(juce::Graphics &g) {
 
 AttentionPoint::AttentionPoint(const juce::Colour &pointColour, const float size) : pointColour(pointColour), size(size) {}
 
-void PointsArea::reflectMovesToScrollBars() {
+void PointsArea::reflectMovesToVerticalScrollBar() {
 
-    auto comp = [](MyPoint* const& a, MyPoint* const& b){
+    auto compByY = [](MyPoint* const& a, MyPoint* const& b){
         return a->getBounds().getY() < b->getBounds().getY();
     };
 
-    auto minAndMaxByY = std::minmax_element(std::begin(points), std::end(points), comp);
+    auto minAndMaxByY = std::minmax_element(std::begin(points), std::end(points), compByY);
     int getMinY = minAndMaxByY.first[0]->getBounds().getY() - 15;
     int yMin = getMinY > 0 ? 0 : getMinY;
     int getMaxY = minAndMaxByY.second[0]->getBounds().getY() + 15;
     int height = this->getHeight() - 1;
     int yMax = getMaxY < height ? height : getMaxY;
     verticalScrollBar.setRangeLimits(yMin, yMax);
-
 }
 
+void PointsArea::reflectMovesToHorizontalScrollBar() {
+
+    auto compByX = [](MyPoint *const &a, MyPoint *const &b) {
+        return a->getBounds().getX() < b->getBounds().getX();
+    };
+
+    auto minAndMaxByX = std::minmax_element(std::begin(points), std::end(points), compByX);
+    int getMinX = minAndMaxByX.first[0]->getBounds().getX() - 15;
+    int xMin = getMinX > 0 ? 0 : getMinX;
+    int getMaxX = minAndMaxByX.second[0]->getBounds().getX() + 15;
+    int width = this->getWidth() - 1;
+    int xMax = getMaxX < width ? width : getMaxX;
+    horizontalScrollBar.setRangeLimits(xMin, xMax);
+}
 void PointsArea::scrollBarMoved(juce::ScrollBar *scrollBarThatHasMoved, double newRangeStart) {
-    scalingService.move(0, -newRangeStart);
+    if (scrollBarThatHasMoved == &verticalScrollBar)
+        scalingService.move(0, -newRangeStart);
+    if (scrollBarThatHasMoved == &horizontalScrollBar)
+        scalingService.move(-newRangeStart, 0);
     updatePositionOfAllPoints();
 }

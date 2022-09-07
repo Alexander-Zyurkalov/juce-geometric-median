@@ -11,12 +11,20 @@ MainComponent::MainComponent() {
 
     addNewPointButton.addListener(this);
 
-    verticalScrollBar.setBounds(575, 140, 15, 400);
+    verticalScrollBar.setBounds(575, 140, 15, 385);
     verticalScrollBar.setAutoHide(true);
     verticalScrollBar.setRangeLimits(0,pointsArea.getBounds().getHeight()-1);
     verticalScrollBar.setCurrentRange(0,pointsArea.getBounds().getHeight()-1);
     addAndMakeVisible(verticalScrollBar);
     verticalScrollBar.addListener(&pointsArea);
+
+    horizontalScrollBar.setBounds(10, 525, 565, 15);
+    horizontalScrollBar.setAutoHide(true);
+    horizontalScrollBar.setRangeLimits(0, pointsArea.getBounds().getWidth() - 1);
+    horizontalScrollBar.setCurrentRange(0, pointsArea.getBounds().getWidth() - 1);
+    addAndMakeVisible(horizontalScrollBar);
+    horizontalScrollBar.addListener(&pointsArea);
+
 }
 
 void MainComponent::buttonClicked(juce::Button *button) {
